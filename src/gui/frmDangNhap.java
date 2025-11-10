@@ -1,0 +1,92 @@
+package gui;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+
+public class frmDangNhap extends JFrame {
+	JTextField txtDn,txtPw;
+	JButton btnDn,btnDk;
+	public frmDangNhap() {
+		//porth
+		JPanel pnorth = new JPanel();
+		JLabel lbtittle = new JLabel("Quản Lý Cửa Hàng");
+		pnorth.add(lbtittle);
+		add(pnorth,BorderLayout.NORTH);
+		
+		//south
+		JPanel psouth = new JPanel();
+		JLabel lbcontent = new JLabel("HotLine liên hệ admin");
+		psouth.setBorder(BorderFactory.createLineBorder(Color.blue));
+		psouth.add(lbcontent);
+		add(psouth,BorderLayout.SOUTH);
+		
+		//center
+		JPanel pcenter = new JPanel();
+		pcenter.setBorder(BorderFactory.createLineBorder(Color.blue));
+		JLabel lbdangnhap = new JLabel("Tên đăng nhập");
+		JLabel lbpassword = new JLabel("Password");
+		pcenter.setLayout(new GridBagLayout());
+		GridBagConstraints gb = new GridBagConstraints();
+		gb.insets = new Insets(5, 5, 5, 5);
+		gb.anchor = GridBagConstraints.WEST;
+		gb.fill = GridBagConstraints.NONE;
+		//ten dang nhap
+		gb.gridx = 0;
+		gb.gridy = 0;
+		pcenter.add(new JLabel("Tên đăng nhập"),gb);
+		gb.gridx = 1;
+		gb.gridy = 0;
+		txtDn = new JTextField();
+		gb.gridwidth = 5;
+		txtDn.setPreferredSize(new Dimension(200,20));
+		pcenter.add(txtDn,gb);
+		gb.gridwidth = 1;
+		
+		//pass
+		gb.gridx = 0;
+		gb.gridy = 1;
+		pcenter.add(new JLabel("Password"),gb);
+		gb.gridx = 1;
+		gb.gridy = 1;
+		txtPw = new JTextField();
+		gb.gridwidth = 5;
+		txtPw.setPreferredSize(new Dimension(200,20));
+		pcenter.add(txtPw,gb);
+		gb.gridwidth = 1;
+		
+		//btn
+		gb.gridx = 2;
+		gb.gridy = 2;
+		pcenter.add(btnDn = new JButton("Đăng nhập"),gb);
+		
+		gb.gridx = 3;
+		gb.gridy = 2;
+		pcenter.add(btnDk = new JButton("Đăng ký"),gb);
+		
+		
+		add(pcenter,BorderLayout.CENTER);
+		
+		
+		setSize(400,300);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setTitle("Đăng Nhập");
+		setLocationRelativeTo(null);
+		setVisible(true);
+	}
+	
+	public static void main(String[] args) {
+		new frmDangNhap();
+	}
+}
