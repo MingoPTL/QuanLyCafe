@@ -112,15 +112,43 @@ public class frmTrangChu extends JFrame implements ActionListener {
 
         pcenter.add(homePanel, "Trang chủ");
         pcenter.add(hoaDonPanel, "Hóa đơn");
+        
+        // Them frmSanpham
+        frmSanPham sanphamPanel = new frmSanPham();
+        
+        pcenter.add(homePanel,"Trang chủ");
+        pcenter.add(sanphamPanel,"Sản phẩm");
+        
+        // Them frmBanHang
+        frmBanHang banhangPanel = new frmBanHang();
+        
+        pcenter.add(homePanel,"Trang chủ");
+        pcenter.add(banhangPanel,"Bán Hàng");
+        
+        //Them frmThongke
+        frmThongKe thongkePanel = new frmThongKe();
+        
+        pcenter.add(homePanel,"Trang chủ");
+        pcenter.add(thongkePanel,"Thống Kê");
+        
+        //Them frmNhanvien
+        frmNhanVien nhanvienPanel = new frmNhanVien();
+        
+        pcenter.add(homePanel,"Trang chủ");
+        pcenter.add(nhanvienPanel,"Nhân Viên");
 
         // === GÁN ACTION ===
         btnTrangchu.addActionListener(this);
         btnHoadon.addActionListener(this);
+        btnSanpham.addActionListener(this);
+        btnBanhang.addActionListener(this);
+        btnThongke.addActionListener(this);
+        btnNhanvien.addActionListener(this);
 
         // === ADD TO FRAME ===
         add(pnNorth, BorderLayout.NORTH);
         add(pwest, BorderLayout.WEST);
-        add(pcenter, BorderLayout.CENTER);
+        add(pcenter, BorderLayout.CENTER);	
 
         setVisible(true);
     }
@@ -154,6 +182,14 @@ public class frmTrangChu extends JFrame implements ActionListener {
             card.show(pcenter, "Trang chủ");
         } else if (obj == btnHoadon) {
             card.show(pcenter, "Hóa đơn");
+        } else if(obj == btnSanpham) {
+        	card.show(pcenter, "Sản phẩm");
+        } else if(obj == btnBanhang) {
+        	card.show(pcenter, "Bán Hàng");
+        } else if(obj == btnThongke) {
+        	card.show(pcenter, "Thống Kê");
+        } else if(obj == btnNhanvien) {
+        	card.show(pcenter, "Nhân Viên");
         }
     }
 

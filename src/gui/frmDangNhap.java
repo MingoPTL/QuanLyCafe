@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -15,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-public class frmDangNhap extends JFrame {
+public class frmDangNhap extends JFrame implements ActionListener {
 	JTextField txtDn,txtPw;
 	JButton btnDn,btnDk;
 	public frmDangNhap() {
@@ -81,6 +83,8 @@ public class frmDangNhap extends JFrame {
 		pcenter.setBackground(new Color(245,222,179));
 		add(pcenter,BorderLayout.CENTER);
 		
+		btnDn.addActionListener(this);
+		
 		
 		setSize(400,300);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -91,5 +95,17 @@ public class frmDangNhap extends JFrame {
 	
 	public static void main(String[] args) {
 		new frmDangNhap();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object obj = e.getSource();
+		if(obj == btnDn) {
+			this.dispose(); 
+		    
+		    // 2️⃣ Mở form trang chủ
+		    new frmTrangChu();
+		}
 	}
 }
