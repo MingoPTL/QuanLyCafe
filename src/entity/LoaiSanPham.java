@@ -23,6 +23,12 @@ public class LoaiSanPham {
 	public LoaiSanPham() {
 		super();
 	}
+	
+	
+	public LoaiSanPham(String maloai) {
+		super();
+		this.maloai = maloai;
+	}
 	@Override
 	public String toString() {
 		return "LoaiSanPham [maloai=" + maloai + ", tenloai=" + tenloai + "]";

@@ -3,66 +3,67 @@ package entity;
 public class SanPham {
 
 	// Thông tin sản phẩm
-	private String maSanPham;
-	private String tenSanPham;
-	private double donGiaSanPham;
-	private NhaCungCap nhaCungCap;
-	private String moTaSanPham;
-	private LoaiSanPham loaiSanpham;
+	private String MaSP;
+	private String TenSP;
+	private double Gia;
+	private NhaCungCap MaNhaCungCap;
+	private String MoTa;
+	private LoaiSanPham LoaiSP;
 	public String getMaSanPham() {
-		return maSanPham;
+		return MaSP;
 	}
 	public void setMaSanPham(String maSanPham) {
-		this.maSanPham = maSanPham;
+		this.MaSP = maSanPham;
 	}
 	public String getTenSanPham() {
-		return tenSanPham;
+		return TenSP;
 	}
 	public void setTenSanPham(String tenSanPham) {
-		this.tenSanPham = tenSanPham;
+		this.TenSP = tenSanPham;
 	}
 	public double getDonGiaSanPham() {
-		return donGiaSanPham;
+		return Gia;
 	}
 	public void setDonGiaSanPham(double donGiaSanPham) {
-		this.donGiaSanPham = donGiaSanPham;
+		this.Gia = donGiaSanPham;
 	}
 	public NhaCungCap getNhaCungCap() {
-		return nhaCungCap;
+		return MaNhaCungCap;
 	}
 	public void setNhaCungCap(NhaCungCap nhaCungCap) {
-		this.nhaCungCap = nhaCungCap;
+		this.MaNhaCungCap = nhaCungCap;
 	}
 	public String getMoTaSanPham() {
-		return moTaSanPham;
+		return MoTa;
 	}
 	public void setMoTaSanPham(String moTaSanPham) {
-		this.moTaSanPham = moTaSanPham;
+		this.MoTa = moTaSanPham;
 	}
 	public LoaiSanPham getLoaiSanpham() {
-		return loaiSanpham;
+		return LoaiSP;
 	}
 	public void setLoaiSanpham(LoaiSanPham loaiSanpham) {
-		this.loaiSanpham = loaiSanpham;
+		this.LoaiSP = loaiSanpham;
 	}
 	public SanPham(String maSanPham, String tenSanPham, double donGiaSanPham, NhaCungCap nhaCungCap, String moTaSanPham,
 			LoaiSanPham loaiSanpham) {
 		super();
-		this.maSanPham = maSanPham;
-		this.tenSanPham = tenSanPham;
-		this.donGiaSanPham = donGiaSanPham;
-		this.nhaCungCap = nhaCungCap;
-		this.moTaSanPham = moTaSanPham;
-		this.loaiSanpham = loaiSanpham;
+		this.MaSP = maSanPham;
+		this.TenSP = tenSanPham;
+		this.Gia = donGiaSanPham;
+		this.MaNhaCungCap = nhaCungCap;
+		this.MoTa = moTaSanPham;
+		this.LoaiSP = loaiSanpham;
 	}
 	public SanPham() {
 		super();
 	}
 	@Override
 	public String toString() {
-		return "SanPham [maSanPham=" + maSanPham + ", tenSanPham=" + tenSanPham + ", donGiaSanPham=" + donGiaSanPham
-				+ ", nhaCungCap=" + nhaCungCap + ", moTaSanPham=" + moTaSanPham + ", loaiSanpham=" + loaiSanpham + "]";
+		return "SanPham [MaSP=" + MaSP + ", TenSP=" + TenSP + ", Gia=" + Gia + ", MaNhaCungCap=" + MaNhaCungCap
+				+ ", MoTa=" + MoTa + ", LoaiSP=" + LoaiSP + "]";
 	}
+	
 	
 	
 	

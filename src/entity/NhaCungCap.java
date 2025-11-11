@@ -24,6 +24,11 @@ public class NhaCungCap {
 		this.diaChiNhaCungCap = diaChiNhaCungCap;
 	}
 
+	public NhaCungCap(String maNhaCungCap) {
+		super();
+		this.maNhaCungCap = maNhaCungCap;
+	}
+
 	// Getter, setter
 	public String getMaNhaCungCap() {
 		return maNhaCungCap;
