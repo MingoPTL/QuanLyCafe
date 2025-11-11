@@ -20,6 +20,7 @@ public class frmDangNhap extends JFrame {
 	JButton btnDn,btnDk;
 	public frmDangNhap() {
 		//porth
+		
 		JPanel pnorth = new JPanel();
 		JLabel lbtittle = new JLabel("Quản Lý Cửa Hàng");
 		pnorth.add(lbtittle);
@@ -74,8 +75,10 @@ public class frmDangNhap extends JFrame {
 		gb.gridx = 3;
 		gb.gridy = 2;
 		pcenter.add(btnDk = new JButton("Đăng ký"),gb);
+		pnorth.setBackground(new Color(245,222,179));
+		psouth.setBackground(new Color(245,222,179));
 		
-		
+		pcenter.setBackground(new Color(245,222,179));
 		add(pcenter,BorderLayout.CENTER);
 		
 		
