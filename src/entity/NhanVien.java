@@ -3,142 +3,104 @@ package entity;
 import java.time.LocalDate;
 
 public class NhanVien {
-	
-	// Thông tin nhân viên
-	private String maNhanVien;
-	private String tenNhanVien;
-	private LocalDate sinhNhat;
-	private String gioiTinh;
-	private String soDienThoai;
-	private String email;
-	private String chucVu;
-	private String diaChi;
-	
-	// Thông tin tài khoản (dành cho nhân viên)
-	private String taiKhoan;
-	private String matKhau;
-	private String vaiTro; // Phân biệt giữa quản lý và nhân viên
-	
-	// Constructor
-	public NhanVien() {
-		super();
-	}
 
-	public NhanVien(String maNhanVien, String tenNhanVien, LocalDate sinhNhat, String gioiTinh, String soDienThoai,
-			String email, String chucVu, String taiKhoan, String matKhau, String vaiTro, String diaChi) {
-		super();
-		this.maNhanVien = maNhanVien;
-		this.tenNhanVien = tenNhanVien;
-		this.sinhNhat = sinhNhat;
-		this.gioiTinh = gioiTinh;
-		this.soDienThoai = soDienThoai;
-		this.email = email;
-		this.chucVu = chucVu;
-		this.taiKhoan = taiKhoan;
-		this.matKhau = matKhau;
-		this.vaiTro = vaiTro;
-		this.diaChi = diaChi;
-	}
-	
-	// Getter, setter
-	public String getMaNhanVien() {
-		return maNhanVien;
-	}
+    private String maNV;
+    private String tenNV;
+    private LocalDate ngaySinh;
+    private String gioiTinh;
+    private String soDienThoai;
+    private String email;
+    private String chucVu;
+    private String diaChi;
 
-	public void setMaNhanVien(String maNhanVien) {
-		this.maNhanVien = maNhanVien;
-	}
+    // Constructor mặc định
+    public NhanVien() {
+        super();
+    }
 
-	public String getTenNhanVien() {
-		return tenNhanVien;
-	}
+    // Constructor đầy đủ
+    public NhanVien(String maNV, String tenNV, LocalDate ngaySinh, String gioiTinh,
+                    String soDienThoai, String email, String chucVu, String diaChi) {
+        super();
+        this.maNV = maNV;
+        this.tenNV = tenNV;
+        this.ngaySinh = ngaySinh;
+        this.gioiTinh = gioiTinh;
+        this.soDienThoai = soDienThoai;
+        this.email = email;
+        this.chucVu = chucVu;
+        this.diaChi = diaChi;
+    }
 
-	public void setTenNhanVien(String tenNhanVien) {
-		this.tenNhanVien = tenNhanVien;
-	}
+    // Getter và Setter
+    public String getMaNV() {
+        return maNV;
+    }
 
-	public LocalDate getSinhNhat() {
-		return sinhNhat;
-	}
+    public void setMaNV(String maNV) {
+        this.maNV = maNV;
+    }
 
-	public void setSinhNhat(LocalDate sinhNhat) {
-		this.sinhNhat = sinhNhat;
-	}
+    public String getTenNV() {
+        return tenNV;
+    }
 
-	public String getGioiTinh() {
-		return gioiTinh;
-	}
+    public void setTenNV(String tenNV) {
+        this.tenNV = tenNV;
+    }
 
-	public void setGioiTinh(String gioiTinh) {
-		this.gioiTinh = gioiTinh;
-	}
+    public LocalDate getNgaySinh() {
+        return ngaySinh;
+    }
 
-	public String getSoDienThoai() {
-		return soDienThoai;
-	}
+    public void setNgaySinh(LocalDate ngaySinh) {
+        this.ngaySinh = ngaySinh;
+    }
 
-	public void setSoDienThoai(String soDienThoai) {
-		this.soDienThoai = soDienThoai;
-	}
+    public String getGioiTinh() {
+        return gioiTinh;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setGioiTinh(String gioiTinh) {
+        this.gioiTinh = gioiTinh;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getSoDienThoai() {
+        return soDienThoai;
+    }
 
-	public String getChucVu() {
-		return chucVu;
-	}
+    public void setSoDienThoai(String soDienThoai) {
+        this.soDienThoai = soDienThoai;
+    }
 
-	public void setChucVu(String chucVu) {
-		this.chucVu = chucVu;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getTaiKhoan() {
-		return taiKhoan;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setTaiKhoan(String taiKhoan) {
-		this.taiKhoan = taiKhoan;
-	}
+    public String getChucVu() {
+        return chucVu;
+    }
 
-	public String getMatKhau() {
-		return matKhau;
-	}
+    public void setChucVu(String chucVu) {
+        this.chucVu = chucVu;
+    }
 
-	public void setMatKhau(String matKhau) {
-		this.matKhau = matKhau;
-	}
+    public String getDiaChi() {
+        return diaChi;
+    }
 
-	public String getVaiTro() {
-		return vaiTro;
-	}
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
+    }
 
-	public void setVaiTro(String vaiTro) {
-		this.vaiTro = vaiTro;
-	}
-	public String getDiaChi() {
-		return diaChi;
-	}
-
-	public void setDiaChi(String diaChi) {
-		this.diaChi = diaChi;
-	}
-
-	// Ghi đè
-	@Override
-	public String toString() {
-		return "NhanVien [maNhanVien=" + maNhanVien + ", tenNhanVien=" + tenNhanVien + ", sinhNhat=" + sinhNhat
-				+ ", gioiTinh=" + gioiTinh + ", soDienThoai=" + soDienThoai + ", email=" + email + ", chucVu=" + chucVu
-				+ ", diaChi=" + diaChi + ", taiKhoan=" + taiKhoan + ", matKhau=" + matKhau + ", vaiTro=" + vaiTro + "]";
-	}
-
-	
-
-	
-	
-	
+    @Override
+    public String toString() {
+        return "NhanVien [maNV=" + maNV + ", tenNV=" + tenNV + ", ngaySinh=" + ngaySinh
+                + ", gioiTinh=" + gioiTinh + ", soDienThoai=" + soDienThoai
+                + ", email=" + email + ", chucVu=" + chucVu + ", diaChi=" + diaChi + "]";
+    }
 }

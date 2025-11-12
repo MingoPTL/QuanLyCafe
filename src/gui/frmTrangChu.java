@@ -12,7 +12,7 @@ public class frmTrangChu extends JFrame implements ActionListener {
     public frmTrangChu() {
         setTitle("Trang Chủ");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1000, 600);
+        setSize(1300, 800);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
