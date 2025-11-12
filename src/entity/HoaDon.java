@@ -12,6 +12,7 @@ public class HoaDon {
     private double tongGia;
 
     public HoaDon() {
+    	
     }
 
     public HoaDon(String maHoaDon) {

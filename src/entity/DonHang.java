@@ -1,6 +1,7 @@
 package entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class DonHang {
 	
@@ -66,6 +67,7 @@ public class DonHang {
                ", phuongThucThanhToan=" + phuongThucThanhToan + ", moTa=" + moTa + ", trangThai=" + trangThai +
                ", maKhach=" + maKhach + ", maNhanVien=" + maNhanVien + ", maBan=" + maBan + "]";
     }
-	
+
+
 	
 }

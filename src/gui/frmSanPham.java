@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -31,12 +33,12 @@ import entity.LoaiSanPham;
 import entity.NhaCungCap;
 import entity.SanPham;
 
-public class frmSanPham extends JPanel implements ActionListener {
+public class frmSanPham extends JPanel implements ActionListener, MouseListener {
 	JTextField txtMasp,txtTensp,txtDongia,txtMota,txtTimTen,txtNcc;
 	JComboBox<String> cboloaisp,cboTimloai;
 	DefaultTableModel model;
 	JTable table;
-	JButton btnThem,btnCapnhap,btnTim;
+	JButton btnThem,btnCapnhap,btnTim,btnXoa;
 	SanPham_dao sanPhamdao;
 	
 	
@@ -140,9 +142,13 @@ public class frmSanPham extends JPanel implements ActionListener {
         cboTimloai.setPreferredSize(new Dimension(140, 25));
         pnlSearch.add(cboTimloai, gbc);
 
-        gbc.gridx = 3; gbc.gridy = 0;
+        gbc.gridx = 2; gbc.gridy = 0;
         btnTim = new JButton("Tìm");
         pnlSearch.add(btnTim, gbc);
+        
+        gbc.gridx = 3; gbc.gridy = 0;
+        btnXoa = new JButton("Xoa");
+        pnlSearch.add(btnXoa, gbc);
 
         pnlRight.add(pnlSearch, BorderLayout.NORTH);
 
@@ -152,6 +158,8 @@ public class frmSanPham extends JPanel implements ActionListener {
         table = new JTable(model);
         JScrollPane scroll = new JScrollPane(table);
         pnlRight.add(scroll, BorderLayout.CENTER);
+        
+        loadTable();
 
         add(pnlRight, BorderLayout.CENTER);
         
@@ -162,20 +170,19 @@ public class frmSanPham extends JPanel implements ActionListener {
 	
 	
 	private void loadTable() {
-	    DefaultTableModel model = (DefaultTableModel) table.getModel();
-	    model.setRowCount(0); // Xoá dữ liệu cũ
+	    model.setRowCount(0); // Xóa dữ liệu cũ trong bảng
 
-	    for (SanPham sp : sanPhamdao.getAllSanPham()) {
+	    List<SanPham> list = sanPhamdao.getAllSanPham();
+	    for (SanPham sp : list) {
 	        model.addRow(new Object[] {
 	            sp.getMaSanPham(),
 	            sp.getTenSanPham(),
 	            sp.getLoaiSanpham().getTenloai(),
-	            sp.getDonGiaSanPham(),
-	            sp.getNhaCungCap().getTenNhaCungCap(),
-	            sp.getMoTaSanPham()
+	            sp.getDonGiaSanPham()
 	        });
 	    }
 	}
+
 
 
 
@@ -218,7 +225,13 @@ public class frmSanPham extends JPanel implements ActionListener {
 	        }
 
 	        // --- Tạo đối tượng sản phẩm ---
-	        SanPham sp = new SanPham(ma, ten, gia, new NhaCungCap(ncc), mota, new LoaiSanPham(maLoai, loai));
+	     // Nếu txtNcc là nhập mã nhà cung cấp
+	        NhaCungCap nhaCungCap = new NhaCungCap();
+	        nhaCungCap.setMaNhaCungCap(ncc);
+
+	        LoaiSanPham loaiSP = new LoaiSanPham(maLoai, loai);
+	        SanPham sp = new SanPham(ma, ten, gia, nhaCungCap, mota, loaiSP);
+
 
 	        // --- Gọi DAO để thêm ---
 	        if (sanPhamdao.themSanPham(sp)) {
@@ -298,7 +311,78 @@ public class frmSanPham extends JPanel implements ActionListener {
 		    if (ds.isEmpty()) {
 		        JOptionPane.showMessageDialog(this, "Không tìm thấy sản phẩm phù hợp!");
 		    }
-		}
+		}else if (obj.equals(btnXoa)) {
+		    int row = table.getSelectedRow();
+		    if (row == -1) {
+		        JOptionPane.showMessageDialog(this, "⚠ Vui lòng chọn sản phẩm cần xóa trong bảng!");
+		        return;
+		    }
 
+		    String maSP = table.getValueAt(row, 0).toString();
+
+		    int confirm = JOptionPane.showConfirmDialog(this,
+		        "Bạn có chắc muốn xóa sản phẩm có mã: " + maSP + " ?",
+		        "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+
+		    if (confirm == JOptionPane.YES_OPTION) {
+		        SanPham_dao dao = new SanPham_dao();
+		        if (dao.xoaSanPham(maSP)) {
+		            JOptionPane.showMessageDialog(this, "🗑️ Xóa sản phẩm thành công!");
+		            loadTable();
+		        } else {
+		            JOptionPane.showMessageDialog(this, "❌ Xóa thất bại! Kiểm tra lại mã sản phẩm.");
+		        }
+		    }
+		}
+	}
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int row = table.getSelectedRow();
+        if (row >= 0) {
+            txtMasp.setText(table.getValueAt(row, 0).toString());
+            txtTensp.setText(table.getValueAt(row, 1).toString());
+            cboloaisp.setSelectedItem(table.getValueAt(row, 2).toString());
+            txtDongia.setText(table.getValueAt(row, 3).toString());
+
+            // ⚠ Nếu bảng của bạn có thêm cột Mô tả, Nhà cung cấp:
+            // thì thêm các dòng dưới đây cho đủ
+            if (table.getColumnCount() > 4) {
+                txtNcc.setText(table.getValueAt(row, 4).toString());
+            }
+            if (table.getColumnCount() > 5) {
+                txtMota.setText(table.getValueAt(row, 5).toString());
+            }
+        }
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

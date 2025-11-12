@@ -331,7 +331,7 @@ public class frmNhanVien extends JPanel implements ActionListener,MouseListener 
 	
 	private void timNhanVien() {
 	    try {
-	        String ma = JOptionPane.showInputDialog(this, "Nhập mã nhân viên cần tìm:");
+	        String ma = txtTenNV.getText().trim();
 	        if (ma == null || ma.trim().isEmpty()) 
 	            return;
 

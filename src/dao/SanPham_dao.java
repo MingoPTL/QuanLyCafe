@@ -14,53 +14,66 @@ import entity.NhaCungCap;
 import entity.SanPham;
 
 public class SanPham_dao {
-	public List<SanPham> getAllSanPham(){
-		List<SanPham> dssp = new ArrayList<>();
-		Connection con = ConnectDB.getConnection();
-		
-		try {
-			String url = "Select * from SanPham";
-			Statement state = con.createStatement();
-			ResultSet res = state.executeQuery(url);
-			
-			while(res.next()) {
-				String ma = res.getString("MaSP");
-                String ten = res.getString("TenSP");
-                double gia = res.getDouble("Gia");
-                String ncc = res.getString("MaNhaCungCap");
-                String mota = res.getString("MoTa");
-                String loai = res.getString("LoaiSP");
+	public List<SanPham> getAllSanPham() {
+	    List<SanPham> dssp = new ArrayList<>();
+	    Connection con = ConnectDB.getConnection();
 
-                SanPham sp = new SanPham(ma, ten, gia, new NhaCungCap(ncc), mota, new LoaiSanPham(loai));
-                dssp.add(sp);
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return dssp;
+	    try {
+	        // ✅ JOIN để lấy cả tên loại sản phẩm
+	        String sql = "SELECT sp.MaSP, sp.TenSP, sp.Gia, sp.MaNhaCungCap, sp.MoTa, " +
+	                     "loai.MaLoai, loai.TenLoai " +
+	                     "FROM SanPham sp " +
+	                     "JOIN LoaiSanPham loai ON sp.MaLoai = loai.MaLoai";
+
+	        Statement state = con.createStatement();
+	        ResultSet res = state.executeQuery(sql);
+
+	        while (res.next()) {
+	            String ma = res.getString("MaSP");
+	            String ten = res.getString("TenSP");
+	            double gia = res.getDouble("Gia");
+	            String maNCC = res.getString("MaNhaCungCap");
+	            String moTa = res.getString("MoTa");
+	            String maLoai = res.getString("MaLoai");
+	            String tenLoai = res.getString("TenLoai");
+
+	            // Tạo các đối tượng đầy đủ thông tin
+	            NhaCungCap ncc = new NhaCungCap(maNCC);
+	            LoaiSanPham loai = new LoaiSanPham(maLoai, tenLoai);
+	            SanPham sp = new SanPham(ma, ten, gia, ncc, moTa, loai);
+
+	            dssp.add(sp);
+	        }
+
+	        res.close();
+	        state.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return dssp;
 	}
 	
 	public boolean themSanPham(SanPham sp) {
-        Connection con = ConnectDB.getConnection();
-        PreparedStatement stmt = null;
-        int n = 0;
+	    Connection con = ConnectDB.getConnection();
+	    PreparedStatement stmt = null;
+	    int n = 0;
 
-        try {
-            String sql = "INSERT INTO SanPham(MaSP, TenSP, Gia, MaNhaCungCap, MoTa, LoaiSP) VALUES(?, ?, ?, ?, ?, ?)";
-            stmt = con.prepareStatement(sql);
-            stmt.setString(1, sp.getMaSanPham());
-            stmt.setString(2, sp.getTenSanPham());
-            stmt.setDouble(3, sp.getDonGiaSanPham());
-            stmt.setString(4, sp.getNhaCungCap().getTenNhaCungCap());
-            stmt.setString(5, sp.getMoTaSanPham());
-            stmt.setString(6, sp.getLoaiSanpham().getTenloai());
+	    try {
+	        String sql = "INSERT INTO SanPham(MaSP, TenSP, Gia, MaNhaCungCap, MoTa, MaLoai) VALUES(?, ?, ?, ?, ?, ?)";
+	        stmt = con.prepareStatement(sql);
+	        stmt.setString(1, sp.getMaSanPham());
+	        stmt.setString(2, sp.getTenSanPham());
+	        stmt.setDouble(3, sp.getDonGiaSanPham());
+	        stmt.setString(4, sp.getNhaCungCap().getMaNhaCungCap()); // mã NCC
+	        stmt.setString(5, sp.getMoTaSanPham());
+	        stmt.setString(6, sp.getLoaiSanpham().getMaloai()); // mã loại (TS, CF, ĐA)
 
-            n = stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return n > 0;
-    }
+	        n = stmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return n > 0;
+	}
 	
 	private String getMaNhaCungCapTheoTen(String tenNCC) {
         Connection con = ConnectDB.getConnection();
