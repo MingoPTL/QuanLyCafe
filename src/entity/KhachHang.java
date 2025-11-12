@@ -2,42 +2,61 @@ package entity;
 
 public class KhachHang {
 	
-	// Thông tin khách hàng
-	private String maKhachHang; 
-	private String tenKhachHang;
-	
-	// Constructor
-	public KhachHang() {
-		super();
-	}
+	private String maKhach;
+    private String tenKhach;
+    private String soDienThoai;
+    private String email;
 
-	public KhachHang(String maKhachHang, String tenKhachHang) {
-		super();
-		this.maKhachHang = maKhachHang;
-		this.tenKhachHang = tenKhachHang;
-	}
+    public KhachHang() {
+    }
 
-	// Getter, setter
-	public String getMaKhachHang() {
-		return maKhachHang;
-	}
+    public KhachHang(String maKhach) {
+        this.maKhach = maKhach;
+    }
 
-	public void setMaKhachHang(String maKhachHang) {
-		this.maKhachHang = maKhachHang;
-	}
+    public KhachHang(String maKhach, String tenKhach, String soDienThoai, String email) {
+        this.maKhach = maKhach;
+        this.tenKhach = tenKhach;
+        this.soDienThoai = soDienThoai;
+        this.email = email;
+    }
 
-	public String getTenKhachHang() {
-		return tenKhachHang;
-	}
+    public String getMaKhach() {
+        return maKhach;
+    }
 
-	public void setTenKhachHang(String tenKhachHang) {
-		this.tenKhachHang = tenKhachHang;
-	}
+    public void setMaKhach(String maKhach) {
+        this.maKhach = maKhach;
+    }
 
-	//Ghi đè
-	@Override
-	public String toString() {
-		return "KhachHang [maKhachHang=" + maKhachHang + ", tenKhachHang=" + tenKhachHang + "]";
-	}
-		
+    public String getTenKhach() {
+        return tenKhach;
+    }
+
+    public void setTenKhach(String tenKhach) {
+        this.tenKhach = tenKhach;
+    }
+
+    public String getSoDienThoai() {
+        return soDienThoai;
+    }
+
+    public void setSoDienThoai(String soDienThoai) {
+        this.soDienThoai = soDienThoai;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "KhachHang [maKhach=" + maKhach + ", tenKhach=" + tenKhach +
+                ", soDienThoai=" + soDienThoai + ", email=" + email + "]";
+    }
+
 }

@@ -2,52 +2,66 @@ package entity;
 
 public class Ban {
 	
-	// Thông tin bàn cà phê
 	private String maBan;
-	private int soBan;
-	private String trangThai; // Bàn có được đặt trước hay chưa
+    private String trangThai; // đổi tên cho giống SQL
+    private int kichThuoc;
+    private String viTri;
+
+    public Ban() {
+        super();
+    }
+
+    public Ban(String maBan) {
+        super();
+        this.maBan = maBan;
+    }
+
+    public Ban(String maBan, String trangThai, int kichThuoc, String viTri) {
+        super();
+        this.maBan = maBan;
+        this.trangThai = trangThai;
+        this.kichThuoc = kichThuoc;
+        this.viTri = viTri;
+    }
+
+    public String getMaBan() {
+        return maBan;
+    }
+
+    public void setMaBan(String maBan) {
+        this.maBan = maBan;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    public int getKichThuoc() {
+        return kichThuoc;
+    }
+
+    public void setKichThuoc(int kichThuoc) {
+        this.kichThuoc = kichThuoc;
+    }
+
+    public String getViTri() {
+        return viTri;
+    }
+
+    public void setViTri(String viTri) {
+        this.viTri = viTri;
+    }
+
+    @Override
+    public String toString() {
+        return "Ban [maBan=" + maBan + ", trangThai=" + trangThai + ", kichThuoc=" + kichThuoc + ", viTri=" + viTri
+                + "]";
+    }
 	
-	// Constructor
-	public Ban() {
-		super();
-	}
-
-	public Ban(String maBan, int soBan, String trangThai) {
-		super();
-		this.maBan = maBan;
-		this.soBan = soBan;
-		this.trangThai = trangThai;
-	}
-
-	// Getter, setter
-	public String getMaBan() {
-		return maBan;
-	}
-
-	public void setMaBan(String maBan) {
-		this.maBan = maBan;
-	}
-
-	public int getSoBan() {
-		return soBan;
-	}
-
-	public void setSoBan(int soBan) {
-		this.soBan = soBan;
-	}
-
-	public String getTrangThai() {
-		return trangThai;
-	}
-
-	public void setTrangThai(String trangThai) {
-		this.trangThai = trangThai;
-	}
-
-	// Ghi đè
-	@Override
-	public String toString() {
-		return "Ban [maBan=" + maBan + ", soBan=" + soBan + ", trangThai=" + trangThai + "]";
-	}
+	
 	
 }
