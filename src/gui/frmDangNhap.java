@@ -17,7 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 public class frmDangNhap extends JFrame implements ActionListener {
 	JTextField txtDn;
@@ -104,28 +103,28 @@ public class frmDangNhap extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object obj = e.getSource();
-		if(obj == btnDn) {
-			String dnhap = txtDn.getText().trim();
-			String pass = txtPw.getText().trim();
-			
-			String regexdnhap = "quanlycafe";
-			String regexpass = "123456";
-			
-			
-			if(dnhap.equals("") || pass.equals("")) {
-				JOptionPane.showMessageDialog(this, "Nhập đủ thông tin");
-			}
-			
-			else if(!dnhap.matches(regexdnhap) || !pass.matches(regexpass)) {
-				JOptionPane.showMessageDialog(this, "Tài khoản hoặc mật khẩu không đúng");
-			}
-			else {
-				this.dispose(); 
-			    
-			    // 2️⃣ Mở form trang chủ
-			    new frmTrangChu();
-			}
-			
+		if (obj == btnDn) {
+		    String dnhap = txtDn.getText().trim();
+		    String pass = txtPw.getText().trim();
+
+		    String regexQuanLy = "quanlycafe";
+		    String regexNhanVien = "^NV10[0-9]$";
+		    String regexPass = "123456";
+
+		    if (dnhap.equals("") || pass.equals("")) {
+		        JOptionPane.showMessageDialog(this, "Nhập đủ thông tin");
+		    } 
+		    else if (
+		        (!dnhap.equals(regexQuanLy) && !dnhap.matches(regexNhanVien)) // nếu không phải quản lý hoặc nhân viên hợp lệ
+		        || !pass.equals(regexPass)
+		    ) {
+		        JOptionPane.showMessageDialog(this, "Tài khoản hoặc mật khẩu không đúng");
+		    } 
+		    else {
+		        this.dispose(); 
+		        new frmTrangChu(); // mở form chính
+		    }
 		}
+
 	}
 }
