@@ -6,8 +6,12 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import dao.ChiTietDonHang_dao;
 import dao.DonHang_dao;
+import dao.HoaDon_dao;
+import entity.ChiTietDonHang;
 import entity.DonHang;
+import entity.HoaDon;
 
 public class frmBanHang extends JPanel implements ActionListener {
     private JTable tblSanPhamDaChon;
@@ -178,27 +182,71 @@ public class frmBanHang extends JPanel implements ActionListener {
             txtTienThua.setText(String.format("%,.0f₫", thua));
             cboTrangThai.setSelectedItem("Đã thanh toán");
 
-            DonHang_dao donHang_dao = new DonHang_dao();
+            try {
+                // ===== 1️⃣ TẠO ĐƠN HÀNG =====
+                DonHang_dao donHang_dao = new DonHang_dao();
+                DonHang dh = new DonHang();
 
-            DonHang dh = new DonHang();
-            dh.setTongTien(tong);
-            dh.setPhuongThucThanhToan("Tiền mặt");
-            dh.setMoTa("Đơn tự động");
-            dh.setTrangThai("Đã thanh toán");
+                dh.setTongTien(tong);
+                dh.setPhuongThucThanhToan(cboLoaiTT.getSelectedItem().toString());
+                dh.setMoTa("Thanh toán tại quầy");
+                dh.setTrangThai("Đã thanh toán");
 
-            // 🔹 Gán mã nhân viên ngẫu nhiên trong danh sách có sẵn
-            String[] maNVs = {"NV100", "NV101"};
-            int randomIndexNV = (int) (Math.random() * maNVs.length);	
-            dh.setMaNhanVien(maNVs[randomIndexNV]);
+                // gán mã NV ngẫu nhiên
+                String[] maNVs = {"NV100", "NV101"};
+                dh.setMaNhanVien(maNVs[(int) (Math.random() * maNVs.length)]);
+                dh.setMaBan(1);
 
-            dh.setMaBan(1);
+                String maDonHang = donHang_dao.themDonHangVaTraVeMa(dh); // 🟢 TRẢ VỀ MÃ ĐƠN HÀNG
 
-            if (donHang_dao.themDonHangNgauNhien(dh)) {
-                JOptionPane.showMessageDialog(this, "✅ Thanh toán & lưu đơn hàng thành công!");
-            } else {
-                JOptionPane.showMessageDialog(this, "❌ Lưu đơn hàng thất bại!");
+                if (maDonHang == null) {
+                    JOptionPane.showMessageDialog(this, "❌ Lưu đơn hàng thất bại!");
+                    return;
+                }
+
+                // ===== 2️⃣ TẠO HÓA ĐƠN =====
+                HoaDon_dao hoaDon_dao = new HoaDon_dao();
+                HoaDon hd = new HoaDon();
+                hd.setMaDonHang(maDonHang);
+                hd.setTongGia(tong);
+                hd.setNgayXuat(java.time.LocalDate.now());
+                if (hd.getMaHoaDon() == null || hd.getMaHoaDon().isEmpty()) {
+                    String maHoaDon = "HD" + System.currentTimeMillis();
+                    hd.setMaHoaDon(maHoaDon);
+                }
+                hoaDon_dao.themHoaDon(hd);
+
+                // ===== 3️⃣ LƯU CHI TIẾT ĐƠN HÀNG =====
+                ChiTietDonHang_dao ctdh_dao = new ChiTietDonHang_dao();
+
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    ChiTietDonHang ct = new ChiTietDonHang();
+                    ct.setMaDonHang(maDonHang);
+                    ct.setMaSanPham(model.getValueAt(i, 0).toString()); // mã SP
+                    ct.setSoLuong(Integer.parseInt(model.getValueAt(i, 3).toString())); // cột SL
+                    ct.setGiaGoc(parseMoney(model.getValueAt(i, 2).toString())); // đơn giá
+                    ct.setTongTienDonHang(ct.getGiaGoc() * ct.getSoLuong());
+                    ctdh_dao.themChiTietDonHang(ct);
+                }
+
+                // ===== 4️⃣ HOÀN TẤT =====
+                JOptionPane.showMessageDialog(this,
+                        "✅ Thanh toán thành công!\nĐơn hàng: " + maDonHang,
+                        "Hoàn tất", JOptionPane.INFORMATION_MESSAGE);
+
+                // reset form
+                model.setRowCount(0);
+                txtTienKhachTra.setText("");
+                txtTienThua.setText("0₫");
+                txtTongTienSP.setText("0₫");
+                txtTongTienHD.setText("0₫");
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "⚠️ Lỗi khi lưu dữ liệu: " + ex.getMessage());
             }
         });
+
 
         btnHuy.addActionListener(ev -> {
             model.setRowCount(0);

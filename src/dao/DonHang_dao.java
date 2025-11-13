@@ -47,7 +47,8 @@ public class DonHang_dao {
                 HoaDon hd = new HoaDon();
 
                 // Tạo mã hóa đơn ngẫu nhiên
-                String maHoaDon = "HD" + String.format("%03d", (int) (Math.random() * 1000));
+                String maHoaDon = "HD" + System.currentTimeMillis();
+
 
                 hd.setMaHoaDon(maHoaDon);
                 hd.setMaDonHang(dh.getMaDonHang());
@@ -70,4 +71,30 @@ public class DonHang_dao {
             }
         }
     }
+    
+    public String themDonHangVaTraVeMa(DonHang dh) {
+        Connection con = ConnectDB.getInstance().getConnection();
+        PreparedStatement stmt = null;
+        try {
+            String maDH = "DH" + System.currentTimeMillis(); // tạo mã ngẫu nhiên
+            String sql = "INSERT INTO DonHang (MaDonHang, PhuongThucThanhToan, TrangThai, MaNhanVien, MoTa, MaBan, TongTien) "
+                       + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, maDH);
+            stmt.setString(2, dh.getPhuongThucThanhToan());
+            stmt.setString(3, dh.getTrangThai());
+            stmt.setString(4, dh.getMaNhanVien());
+            stmt.setString(5, dh.getMoTa());
+            stmt.setInt(6, dh.getMaBan());
+            stmt.setDouble(7, dh.getTongTien());
+
+            int n = stmt.executeUpdate();
+            if (n > 0)
+                return maDH;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

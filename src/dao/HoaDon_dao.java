@@ -12,6 +12,14 @@ public class HoaDon_dao {
         Connection con = ConnectDB.getInstance().getConnection();
         PreparedStatement stmt = null;
         try {
+            // ✅ Debug xem có bị null không
+            System.out.println("====== THÊM HÓA ĐƠN ======");
+            System.out.println("MaHoaDon: " + hd.getMaHoaDon());
+            System.out.println("MaDonHang: " + hd.getMaDonHang());
+            System.out.println("NgayXuat: " + hd.getNgayXuat());
+            System.out.println("TongGia: " + hd.getTongGia());
+            System.out.println("==========================");
+
             String sql = "INSERT INTO HoaDon (MaHoaDon, MaDonHang, NgayXuat, TongGia) VALUES (?, ?, ?, ?)";
             stmt = con.prepareStatement(sql);
             stmt.setString(1, hd.getMaHoaDon());

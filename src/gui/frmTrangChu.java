@@ -4,10 +4,18 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import connectDB.ConnectDB;
+
 public class frmTrangChu extends JFrame implements ActionListener {
-    JButton btnTrangchu, btnBanhang, btnHoadon, btnSanpham, btnThongke, btnNhanvien;
+    JButton btnTrangchu, btnBanhang, btnHoadon, btnSanpham, btnThongke, btnNhanvien,btnGiaoca,btnDangxuat;
     CardLayout card;
     JPanel pcenter; // nơi chứa các màn hình con
+    
+    private frmHoaDon hoaDonPanel;
+    private frmSanPham sanphamPanel;
+    private frmBanHang banhangPanel;
+    private frmThongKe thongkePanel;
+    private frmNhanVien nhanvienPanel;
 
     public frmTrangChu() {
         setTitle("Trang Chủ");
@@ -15,6 +23,8 @@ public class frmTrangChu extends JFrame implements ActionListener {
         setSize(1300, 800);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        ConnectDB.getInstance().connect();
+
 
         // === MÀU CHỦ ĐẠO ===
         Color colorSidebar = new Color(150, 111, 91);
@@ -29,19 +39,17 @@ public class frmTrangChu extends JFrame implements ActionListener {
         JPanel pnNorthLeft = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         pnNorthLeft.setOpaque(false);
 
-        JButton btnGiaoca = new JButton("Giao ca");
-        JButton btnDoimatkhau = new JButton("Đổi mật khẩu");
-        JButton btnDangxuat = new JButton("Đăng xuất");
+        btnGiaoca = new JButton("Giao ca");
+        btnDangxuat = new JButton("Đăng xuất");
 
         Color btnColor = new Color(245, 222, 179);
-        for (JButton b : new JButton[]{btnGiaoca, btnDoimatkhau, btnDangxuat}) {
+        for (JButton b : new JButton[]{btnGiaoca, btnDangxuat}) {
             b.setBackground(btnColor);
             b.setFocusPainted(false);
             b.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         }
 
         pnNorthLeft.add(btnGiaoca);
-        pnNorthLeft.add(btnDoimatkhau);
         pnNorthLeft.add(btnDangxuat);
 
         JPanel pnNorthRight = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 5));
@@ -108,31 +116,31 @@ public class frmTrangChu extends JFrame implements ActionListener {
         homePanel.add(lblHome, BorderLayout.CENTER);
 
         // Thêm frmHoaDon (JPanel)
-        frmHoaDon hoaDonPanel = new frmHoaDon();
+        hoaDonPanel = new frmHoaDon();
 
         pcenter.add(homePanel, "Trang chủ");
         pcenter.add(hoaDonPanel, "Hóa đơn");
         
         // Them frmSanpham
-        frmSanPham sanphamPanel = new frmSanPham();
+        sanphamPanel = new frmSanPham();
         
         pcenter.add(homePanel,"Trang chủ");
         pcenter.add(sanphamPanel,"Sản phẩm");
         
         // Them frmBanHang
-        frmBanHang banhangPanel = new frmBanHang();
+        banhangPanel = new frmBanHang();
         
         pcenter.add(homePanel,"Trang chủ");
         pcenter.add(banhangPanel,"Bán Hàng");
         
         //Them frmThongke
-        frmThongKe thongkePanel = new frmThongKe();
+        thongkePanel = new frmThongKe();
         
         pcenter.add(homePanel,"Trang chủ");
         pcenter.add(thongkePanel,"Thống Kê");
         
         //Them frmNhanvien
-        frmNhanVien nhanvienPanel = new frmNhanVien();
+        nhanvienPanel = new frmNhanVien();
         
         pcenter.add(homePanel,"Trang chủ");
         pcenter.add(nhanvienPanel,"Nhân Viên");
@@ -144,6 +152,7 @@ public class frmTrangChu extends JFrame implements ActionListener {
         btnBanhang.addActionListener(this);
         btnThongke.addActionListener(this);
         btnNhanvien.addActionListener(this);
+        btnDangxuat.addActionListener(this);
 
         // === ADD TO FRAME ===
         add(pnNorth, BorderLayout.NORTH);
@@ -181,6 +190,7 @@ public class frmTrangChu extends JFrame implements ActionListener {
         if (obj == btnTrangchu) {
             card.show(pcenter, "Trang chủ");
         } else if (obj == btnHoadon) {
+            hoaDonPanel.reloadHoaDonTable();
             card.show(pcenter, "Hóa đơn");
         } else if(obj == btnSanpham) {
         	card.show(pcenter, "Sản phẩm");
@@ -190,6 +200,20 @@ public class frmTrangChu extends JFrame implements ActionListener {
         	card.show(pcenter, "Thống Kê");
         } else if(obj == btnNhanvien) {
         	card.show(pcenter, "Nhân Viên");
+        } else if(obj == btnDangxuat) {
+        	int result = JOptionPane.showConfirmDialog(
+        		    this,
+        		    "Bạn chắc chắn muốn đăng xuất chứ?",
+        		    "Xác nhận đăng xuất",
+        		    JOptionPane.YES_NO_OPTION,
+        		    JOptionPane.QUESTION_MESSAGE
+        		);
+
+        		if (result == JOptionPane.YES_OPTION) {
+        		    this.dispose();
+        		    new frmDangNhap();
+        		}
+
         }
     }
 
