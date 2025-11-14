@@ -58,17 +58,8 @@ public class frmHoaDon extends JPanel {
         pnlInfo.add(new JLabel("Mã HD:"));
         txtMaHD = new JTextField(); pnlInfo.add(txtMaHD);
 
-        pnlInfo.add(new JLabel("Khách hàng:"));
-        txtKhach = new JTextField(); pnlInfo.add(txtKhach);
-
-        pnlInfo.add(new JLabel("SDT:"));
-        txtSDT = new JTextField(); pnlInfo.add(txtSDT);
-
         pnlInfo.add(new JLabel("TG tạo:"));
         txtTGtao = new JTextField(); pnlInfo.add(txtTGtao);
-
-        pnlInfo.add(new JLabel("TG thanh toán:"));
-        txtTGthanhtoan = new JTextField(); pnlInfo.add(txtTGthanhtoan);
 
         pnlInfo.add(new JLabel("Loại thanh toán:"));
         txtLoaiTT = new JTextField(); pnlInfo.add(txtLoaiTT);
@@ -76,17 +67,8 @@ public class frmHoaDon extends JPanel {
         pnlInfo.add(new JLabel("Trạng thái:"));
         txtTrangThai = new JTextField(); pnlInfo.add(txtTrangThai);
 
-        pnlInfo.add(new JLabel("Tổng tiền SP:"));
-        txtTongSP = new JTextField(); pnlInfo.add(txtTongSP);
-
-        pnlInfo.add(new JLabel("Chi phí khác:"));
-        txtChiPhiKhac = new JTextField(); pnlInfo.add(txtChiPhiKhac);
-
         pnlInfo.add(new JLabel("Tổng tiền HD:"));
         txtTongHD = new JTextField(); pnlInfo.add(txtTongHD);
-
-        pnlInfo.add(new JLabel("Địa chỉ:"));
-        txtDiaChi = new JTextField(); pnlInfo.add(txtDiaChi);
 
         pnlInfo.add(new JLabel("Ghi chú:"));
         txtGhiChu = new JTextField(); pnlInfo.add(txtGhiChu);

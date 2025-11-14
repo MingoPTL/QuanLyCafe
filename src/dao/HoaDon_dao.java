@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import connectDB.ConnectDB;
@@ -35,5 +36,28 @@ public class HoaDon_dao {
                 if (stmt != null) stmt.close();
             } catch (SQLException e) { e.printStackTrace(); }
         }
+    }
+    
+    public double getTongTienAll() {
+        String sql = "SELECT SUM(TongGia) AS Tong FROM HoaDon";
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            con = ConnectDB.getInstance().getConnection();
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                double tong = rs.getDouble("Tong");
+                return tong;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            // Không đóng connection nếu ConnectDB quản lý connection pool; nếu không thì đóng.
+        }
+        return 0;
     }
 }
