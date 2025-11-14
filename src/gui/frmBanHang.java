@@ -83,8 +83,9 @@ public class frmBanHang extends JPanel implements ActionListener {
             card.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent e) {
-                    model.addRow(new Object[]{sp[0], sp[1], sp[3] + "₫", 1, sp[3] + "₫", "", "X"});
-                    capNhatTongTien();
+                	model.addRow(new Object[]{sp[0], sp[1], sp[3] + "₫", 1, sp[3] + "₫", "", "X"});
+                	capNhatTongTien();
+
                 }
             });
 
@@ -224,7 +225,7 @@ public class frmBanHang extends JPanel implements ActionListener {
                     ct.setMaDonHang(maDonHang);
                     ct.setMaSanPham(model.getValueAt(i, 0).toString()); // mã SP
                     ct.setSoLuong(Integer.parseInt(model.getValueAt(i, 3).toString())); // cột SL
-                    ct.setGiaGoc(parseMoney(model.getValueAt(i, 2).toString())); // đơn giá
+                    ct.setGiaGoc(parseMoney(model.getValueAt(i, 2).toString()));
                     ct.setTongTienDonHang(ct.getGiaGoc() * ct.getSoLuong());
                     ctdh_dao.themChiTietDonHang(ct);
                 }
@@ -258,13 +259,54 @@ public class frmBanHang extends JPanel implements ActionListener {
             txtTongTienHD.setText("0₫");
             cboTrangThai.setSelectedItem("Chờ order");
         });
+        
+     // AUTO UPDATE THÀNH TIỀN KHI SỬA SỐ LƯỢNG
+        tblSanPhamDaChon.addPropertyChangeListener(evt -> {
+            if ("tableCellEditor".equals(evt.getPropertyName()) && !tblSanPhamDaChon.isEditing()) {
+                int row = tblSanPhamDaChon.getSelectedRow();
+                if (row >= 0) {
+                    try {
+                        double donGia = parseMoney(model.getValueAt(row, 2).toString());
+                        int sl = Integer.parseInt(model.getValueAt(row, 3).toString());
+                        double thanhTien = donGia * sl;
+
+                        model.setValueAt(String.format("%,.0f₫", thanhTien), row, 4);
+                        capNhatTongTien();
+                    } catch (Exception ex) {
+                        // Nếu nhập sai số → reset SL = 1
+                        model.setValueAt(1, row, 3);
+                    }
+                }
+            }
+        });
+        
+     // TỰ ĐỘNG CẬP NHẬT TIỀN THỪA KHI NHẬP TIỀN KHÁCH TRẢ
+        txtTienKhachTra.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                capNhatTienThoi();
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                capNhatTienThoi();
+            }
+
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                capNhatTienThoi();
+            }
+        });
+
+
 
         pnlMain.add(pnlRight);
     }
 
     private double parseMoney(String str) {
         if (str == null || str.isEmpty()) return 0;
-        str = str.replace("₫", "").replace(".", "").trim();
+        str = str.replace("₫", "").replace(".", "").replace(",", "").trim();
         try {
             return Double.parseDouble(str);
         } catch (Exception e) {
@@ -272,15 +314,30 @@ public class frmBanHang extends JPanel implements ActionListener {
         }
     }
 
+
     private void capNhatTongTien() {
         double tong = 0;
+
         for (int i = 0; i < model.getRowCount(); i++) {
-            String thanhTienStr = model.getValueAt(i, 4).toString().replace("₫", "").replace(".", "");
-            tong += Double.parseDouble(thanhTienStr);
+            String tt = model.getValueAt(i, 4).toString();
+            tong += parseMoney(tt);
         }
+
         txtTongTienSP.setText(String.format("%,.0f₫", tong));
         txtTongTienHD.setText(String.format("%,.0f₫", tong));
     }
+    
+    private void capNhatTienThoi() {
+        double tongHD = parseMoney(txtTongTienHD.getText());
+        double tienKhach = parseMoney(txtTienKhachTra.getText());
+
+        double tienThoi = tienKhach - tongHD;
+        if (tienThoi < 0) tienThoi = 0;
+
+        txtTienThua.setText(String.format("%,.0f₫", tienThoi));
+    }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
