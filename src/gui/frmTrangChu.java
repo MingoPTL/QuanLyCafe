@@ -153,6 +153,7 @@ public class frmTrangChu extends JFrame implements ActionListener {
         btnThongke.addActionListener(this);
         btnNhanvien.addActionListener(this);
         btnDangxuat.addActionListener(this);
+        btnGiaoca.addActionListener(this);
 
         // === ADD TO FRAME ===
         add(pnNorth, BorderLayout.NORTH);
@@ -214,6 +215,8 @@ public class frmTrangChu extends JFrame implements ActionListener {
         		    new frmDangNhap();
         		}
 
+        } else if(obj == btnGiaoca) {
+        	new frmGiaoCa(this);
         }
     }
 
