@@ -54,13 +54,22 @@ public class frmBanHang extends JPanel implements ActionListener {
         String[][] dsSP = {
                 {"CF100", "Cà Phê Đen Đá", "src/pic/sanpham/capheden.jpg", "15000"},
                 {"CF101", "Cà Phê Sữa Đá", "src/pic/sanpham/caphesua.png", "20000"},
+                {"CF102", "Bạc Xỉu", "src/pic/sanpham/bacxiu.jpg", "25000"},
                 {"CF103", "Cà Phê Muối", "src/pic/sanpham/caphemuoi.jpg", "30000"},
+                {"CC100", "CaCao Nóng", "src/pic/sanpham/cacaonong.jpg", "35000"},
                 {"TS100", "Trà Sữa TT", "src/pic/sanpham/trasuatruyenthong.jpg", "20000"},
                 {"TS101", "Trà Sữa TT Đường Đen", "src/pic/sanpham/trasuatrantrauduongden.jpg", "30000"},
-                {"TS103", "Trà Thái Xanh", "src/pic/sanpham/trasuathaixanh.jpg", "30000"},
+                {"TS102", "Trà Sữa Bạc Hà", "src/pic/sanpham/trasuabacha.jpg", "25000"},
+                {"TS103", "Trà Sữa Thái Xanh", "src/pic/sanpham/trasuathaixanh.jpg", "30000"},
+                {"NE100", "Nước cam", "src/pic/sanpham/nuocepcam.jpg", "15000"},
+                {"TS105", "Trà Đào", "src/pic/sanpham/tradao.png", "20000"},
+                {"TS106", "Trà Chanh", "src/pic/sanpham/trachanh.jpg", "20000"},
+                {"ST100", "Sinh Tố Sapoche", "src/pic/sanpham/sinhtosapo.jpg", "20000"},
+                {"ST100", "Sinh Tố Bơ", "src/pic/sanpham/sinhtobo.png", "25000"},
                 {"ĐA100", "Bánh Khoai Tây", "src/pic/sanpham/bimbim.jpg", "10000"},
                 {"ĐA101", "Bánh Bông Lan", "src/pic/sanpham/banhbonglan.jpg", "20000"},
-                {"ĐA102", "Bánh Mì", "src/pic/sanpham/banhmi.jpg", "25000"}
+                {"ĐA102", "Bánh Mì", "src/pic/sanpham/banhmi.jpg", "25000"},
+                {"ĐA103", "Bánh Xu Kem", "src/pic/sanpham/banhxukem.jpg", "30000"},
         };
 
         for (String[] sp : dsSP) {

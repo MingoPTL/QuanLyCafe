@@ -143,7 +143,7 @@ public class frmTrangChu extends JFrame implements ActionListener {
     public frmTrangChu() {
         setTitle("Trang Chủ");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1300, 800);
+        setSize(1500, 1000);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         ConnectDB.getInstance().connect();
@@ -179,7 +179,7 @@ public class frmTrangChu extends JFrame implements ActionListener {
         pnNorthRight.setOpaque(false);
         JLabel lblUser = new JLabel("Lâm Văn Kỳ - Quản lí");
         lblUser.setForeground(Color.WHITE);
-        JLabel lblTime = new JLabel("11:30 AM");
+        JLabel lblTime = new JLabel("");
         lblTime.setForeground(Color.WHITE);
 
         pnNorthRight.add(lblUser);
@@ -199,7 +199,7 @@ public class frmTrangChu extends JFrame implements ActionListener {
         gbc.anchor = GridBagConstraints.NORTH;
 
         // Logo nhỏ góc trái
-        ImageIcon logo = new ImageIcon("src/pic/logo.jpeg");
+        ImageIcon logo = new ImageIcon("src/pic/sanpham/logo.jpeg");
         Image scaled = logo.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
         JLabel lblLogo = new JLabel(new ImageIcon(scaled));
         JPanel plogo = new JPanel();
