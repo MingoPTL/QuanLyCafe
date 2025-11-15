@@ -13,7 +13,7 @@ public class ConnectDB {
 	
 	public void connect() {
 		String url = "jdbc:sqlserver://localhost:1433;databaseName=QuanLyCafe;encrypt=false;trustServerCertificate=true";
-				String user = "sa";
+		String user = "sa";
 		String password = "lamky221077";
 
 		
