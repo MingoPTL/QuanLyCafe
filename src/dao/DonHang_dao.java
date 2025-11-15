@@ -25,8 +25,8 @@ public class DonHang_dao {
                 dh.setNgayDat(LocalDate.now());
             }
 
-            String sql = "INSERT INTO DonHang (MaDonHang, NgayDat, TongTien, PhuongThucThanhToan, MoTa, TrangThai, MaKhach, MaNhanVien, MaBan) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO DonHang (MaDonHang, NgayDat, TongTien, PhuongThucThanhToan, MoTa, TrangThai, MaKhach, MaNhanVien) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             stmt = con.prepareStatement(sql);
             stmt.setString(1, dh.getMaDonHang());
@@ -37,7 +37,6 @@ public class DonHang_dao {
             stmt.setString(6, dh.getTrangThai());
             stmt.setString(7, dh.getMaKhach());
             stmt.setString(8, dh.getMaNhanVien());
-            stmt.setInt(9, dh.getMaBan());
 
             int n = stmt.executeUpdate();
 
@@ -77,16 +76,16 @@ public class DonHang_dao {
         PreparedStatement stmt = null;
         try {
             String maDH = "DH" + System.currentTimeMillis(); // tạo mã ngẫu nhiên
-            String sql = "INSERT INTO DonHang (MaDonHang, PhuongThucThanhToan, TrangThai, MaNhanVien, MoTa, MaBan, TongTien) "
-                       + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO DonHang (MaDonHang, PhuongThucThanhToan, TrangThai, MaNhanVien, MoTa, TongTien) "
+                       + "VALUES (?, ?, ?, ?, ?, ?)";
             stmt = con.prepareStatement(sql);
             stmt.setString(1, maDH);
             stmt.setString(2, dh.getPhuongThucThanhToan());
             stmt.setString(3, dh.getTrangThai());
             stmt.setString(4, dh.getMaNhanVien());
             stmt.setString(5, dh.getMoTa());
-            stmt.setInt(6, dh.getMaBan());
-            stmt.setDouble(7, dh.getTongTien());
+
+            stmt.setDouble(6, dh.getTongTien());
 
             int n = stmt.executeUpdate();
             if (n > 0)

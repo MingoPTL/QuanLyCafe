@@ -46,11 +46,11 @@ public class FrmThemBan extends JDialog {
     }
 
     private void themBan() {
-        String ma = txtMaBan.getText().trim();
+        int ma = Integer.parseInt(txtMaBan.getText().trim());
         String vt = txtViTri.getText().trim();
         String tt = (String) cbTrangThai.getSelectedItem();
 
-        if (ma.isEmpty() || vt.isEmpty() || txtKichThuoc.getText().trim().isEmpty()) {
+        if (vt.isEmpty() || txtKichThuoc.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
             return;
         }

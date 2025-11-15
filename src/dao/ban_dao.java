@@ -20,7 +20,7 @@ public class ban_dao {
 			Statement state = con.createStatement();
 			ResultSet rs = state.executeQuery(url);
 			while(rs.next()) {
-				String ma = rs.getString("MaBan");
+				int ma = rs.getInt("MaBan");
 				String trangThai = rs.getString("TrangThai");
 				int kichThuoc = rs.getInt("KichThuoc");
 				String viTri = rs.getString("ViTri");
@@ -32,7 +32,7 @@ public class ban_dao {
 		}
 		return ds;
 	}
-	public boolean UpdateTrangThai(String maBan,String trangThai) {
+	public boolean UpdateTrangThai(int ma,String trangThai) {
 		int n = 0;
 		try {
 			ConnectDB.getInstance();
@@ -40,18 +40,18 @@ public class ban_dao {
 			String url = "UPDATE Ban Set TrangThai = ? where MaBan =?";
 			java.sql.PreparedStatement pstmt = con.prepareStatement(url);
 			pstmt.setString(1, trangThai);
-			pstmt.setString(2, maBan);
+			pstmt.setLong(2, ma);
 			n = pstmt.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return n>0;
 	}
-	public boolean setTrangThaiTrong(String ma) {
+	public boolean setTrangThaiTrong(int ma) {
 		return UpdateTrangThai(ma, "Trong");
 	}
-	public boolean setTrangThaiDangPhucVu(String ma) {
-		return UpdateTrangThai(ma, "Dang phuc vu");
+	public boolean setTrangThaiDangPhucVu(int i) {
+		return UpdateTrangThai(i, "Dang phuc vu");
 	}
 	public boolean themBan(Ban b) {
 		int n= 0;
@@ -71,7 +71,7 @@ public class ban_dao {
 		}
 		return n>0;
 	}
-	public boolean xoaBan(String maBan) {
+	public boolean xoaBan(int i) {
 	    int n = 0;
 	    try {
 	        ConnectDB.getInstance();
@@ -80,7 +80,7 @@ public class ban_dao {
 	        String sql = "DELETE FROM Ban WHERE MaBan = ?";
 	        java.sql.PreparedStatement pstmt = con.prepareStatement(sql);
 
-	        pstmt.setString(1, maBan);
+	        pstmt.setLong(1, i);
 
 	        n = pstmt.executeUpdate();
 	    } catch (Exception e) {

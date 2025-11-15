@@ -2,7 +2,7 @@ package entity;
 
 public class Ban {
 	
-	private String maBan;
+	private int maBan;
     private String trangThai; // đổi tên cho giống SQL
     private int kichThuoc;
     private String viTri;
@@ -11,12 +11,12 @@ public class Ban {
         super();
     }
 
-    public Ban(String maBan) {
+    public Ban(int maBan) {
         super();
         this.maBan = maBan;
     }
 
-    public Ban(String maBan, String trangThai, int kichThuoc, String viTri) {
+    public Ban(int maBan, String trangThai, int kichThuoc, String viTri) {
         super();
         this.maBan = maBan;
         this.trangThai = trangThai;
@@ -24,11 +24,11 @@ public class Ban {
         this.viTri = viTri;
     }
 
-    public String getMaBan() {
+    public int getMaBan() {
         return maBan;
     }
 
-    public void setMaBan(String maBan) {
+    public void setMaBan(int maBan) {
         this.maBan = maBan;
     }
 
