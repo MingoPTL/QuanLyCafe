@@ -166,6 +166,7 @@ public class frmSanPham extends JPanel implements ActionListener, MouseListener 
         btnThem.addActionListener(this);
         btnCapnhap.addActionListener(this);
         btnTim.addActionListener(this);
+        btnXoa.addActionListener(this);
 	}
 	
 	

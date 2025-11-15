@@ -5,6 +5,8 @@ import dao.HoaDon_dao;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.File;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.text.NumberFormat;
@@ -101,19 +103,17 @@ public class frmGiaoCa extends JFrame {
             );
 
             if (confirm == JOptionPane.YES_OPTION) {
-            	JOptionPane.showMessageDialog(this, "Giao ca thành công!");
 
-                // Đóng frmGiaoCa
+                double tong = hoaDonDao.getTongTienAll();
+                exportCSV(tong);   // <-- GỌI HÀM XUẤT FILE
+
+                JOptionPane.showMessageDialog(this, "Giao ca thành công!");
                 this.dispose();
-
-                // Đóng frmTrangChu
-                if (parent != null) 
-                    parent.dispose();
-
-                // Mở lại frmDangNhap
+                parent.dispose();
                 new frmDangNhap();
             }
         });
+
     }
 
     private void loadData() {
@@ -131,4 +131,33 @@ public class frmGiaoCa extends JFrame {
 
         lblTongTienHD.setText(moneyFormat.format(tong) + " ₫");
     }
+    
+    private void exportCSV(double tongTien) {
+        try {
+            String folder = "E:\\IDE\\java\\ko\\QuanLyCafe\\data";
+            File dir = new File(folder);
+            if (!dir.exists()) dir.mkdirs();
+
+            String fileName = "GiaoCa_" +
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm")) +
+                    ".csv";
+
+            File file = new File(dir, fileName);
+
+            PrintWriter pw = new PrintWriter(file, "UTF-8");
+
+            pw.println("Thời gian kết thúc ca,Tổng tiền hóa đơn");
+            pw.println(lblThoiGianKetThuc.getText() + "," + tongTien);
+
+            pw.close();
+
+            JOptionPane.showMessageDialog(this,
+                    "Xuất file CSV thành công!\nĐường dẫn:\n" + file.getAbsolutePath());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Xuất CSV thất bại: " + e.getMessage());
+        }
+    }
+
 }

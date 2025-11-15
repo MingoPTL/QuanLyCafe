@@ -22,6 +22,7 @@ public class frmNhanVien extends JPanel implements ActionListener,MouseListener 
     private JTable table;
     private DefaultTableModel modelNV;
     private NhanVien_dao nvDao;
+    JTextField txtTimTen;
 
     public frmNhanVien() {
 
@@ -122,8 +123,8 @@ public class frmNhanVien extends JPanel implements ActionListener,MouseListener 
         // Tìm kiếm
         JPanel pnlTimKiem = new JPanel();
         pnlTimKiem.setBorder(BorderFactory.createTitledBorder("Tìm kiếm nhân viên"));
-        pnlTimKiem.add(new JLabel("Tên NV:"));
-        JTextField txtTimTen = new JTextField(15);
+        pnlTimKiem.add(new JLabel("Mã NV:"));
+        txtTimTen = new JTextField(15);
         pnlTimKiem.add(txtTimTen);
         pnlTimKiem.add(new JLabel("Chức vụ:"));
         JComboBox<String> cboTimChucVu = new JComboBox<>(new String[]{"Tất cả", "Phục Vụ", "Quản Lý", "Pha Chế", "Thu Ngân"});
@@ -331,7 +332,7 @@ public class frmNhanVien extends JPanel implements ActionListener,MouseListener 
 	
 	private void timNhanVien() {
 	    try {
-	        String ma = txtTenNV.getText().trim();
+	        String ma = txtTimTen.getText().trim();
 	        if (ma == null || ma.trim().isEmpty()) 
 	            return;
 

@@ -93,14 +93,8 @@ public class frmThongKe extends JPanel {
         btnRefresh.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnRefresh.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        btnRefresh.addActionListener(e -> {
-            // Xóa bảng cũ
-            model.setRowCount(0);
-            // Load lại dữ liệu
-            thongKe.getAllThongKe();
-            // Đổ vào bảng
-            loadTable();
-        });
+        btnRefresh.addActionListener(e -> reloadAll());
+
 
         add(Box.createVerticalStrut(15));
         add(btnRefresh);
@@ -134,6 +128,31 @@ public class frmThongKe extends JPanel {
             model.addRow(row);
         }
     }
+    
+    public void reloadAll() {
+
+        // 1. Reload lại số liệu thống kê
+        lblDoanhThu.setText("<html><center><b>Tổng doanh thu</b><br>"
+                + thongKe.tongDoanhThu() + "</center></html>");
+
+        lblHoaDon.setText("<html><center><b>Số hóa đơn</b><br>"
+                + thongKe.getSoHoaDon() + "</center></html>");
+
+        lblBanChay.setText("<html><center><b>Sản phẩm bán chạy</b><br>"
+                + thongKe.sanPhamBanChay() + "</center></html>");
+
+        // 2. Reload bảng
+        model.setRowCount(0);
+        for (doanhThuThongKe sp : thongKe.getAllThongKe()) {
+            Object[] row = { sp.getMaSP(), sp.getTongSL(), sp.getTongTien() };
+            model.addRow(row);
+        }
+
+        // 3. Refresh giao diện
+        revalidate();
+        repaint();
+    }
+
 
     // ===== MAIN TEST GUI =====
     public static void main(String[] args) {
