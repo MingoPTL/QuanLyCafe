@@ -2,9 +2,14 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 import connectDB.ConnectDB;
+import dao.ban_dao;
+import entity.Ban;
+
 
 public class frmTrangChu extends JFrame implements ActionListener {
     JButton btnTrangchu, btnBanhang, btnHoadon, btnSanpham, btnThongke, btnNhanvien,btnGiaoca,btnDangxuat;
@@ -16,6 +21,124 @@ public class frmTrangChu extends JFrame implements ActionListener {
     private frmBanHang banhangPanel;
     private frmThongKe thongkePanel;
     private frmNhanVien nhanvienPanel;
+    private JPanel createHomePanel() {
+        Color colorMain = new Color(245, 222, 179);
+
+        JPanel homePanel = new JPanel(new BorderLayout());
+        homePanel.setBackground(colorMain);
+
+        // PANEL TRUNG TÂM CHỨA BÀN
+        JPanel center = new JPanel(new GridLayout(0, 4, 20, 20));
+        center.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+        center.setBackground(colorMain);
+        JScrollPane scroll = new JScrollPane(center);
+        scroll.setBorder(null);
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
+
+        // Icon bàn
+        ImageIcon iconBanTrong = new ImageIcon(getClass().getResource("/pic/banGhe/banTron.png"));
+        Image scaledTrong = iconBanTrong.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        ImageIcon banIconTrong = new ImageIcon(scaledTrong);
+
+        ImageIcon iconBanDo = new ImageIcon(getClass().getResource("/pic/banGhe/banDo.png"));
+        Image scaledDo = iconBanDo.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        ImageIcon banIconDo = new ImageIcon(scaledDo);
+
+        // DAO lấy danh sách bàn
+        ban_dao dao = new ban_dao();
+        ArrayList<Ban> dsBan = dao.getAllBan();
+
+        for (Ban b : dsBan) {
+            Ban banTemp = b; // fix lỗi final variable
+            ImageIcon icon = banTemp.getTrangThai().equals("Dang phuc vu") ? banIconDo : banIconTrong;
+
+            JButton btnBan = new JButton(banTemp.getViTri(), icon);
+            btnBan.setHorizontalTextPosition(SwingConstants.CENTER); // chữ ở giữa dưới icon
+            btnBan.setVerticalTextPosition(SwingConstants.BOTTOM);
+            btnBan.setOpaque(false);      // cho trong suốt background
+            btnBan.setContentAreaFilled(false); // tránh viền màu mặc định
+            btnBan.setFocusPainted(false);
+            btnBan.setBorderPainted(false);
+            btnBan.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+
+            // Popup menu chuột phải
+            JPopupMenu popup = new JPopupMenu();
+            JMenuItem delete = new JMenuItem("Xóa bàn");
+            delete.addActionListener(e -> {
+                int res = JOptionPane.showConfirmDialog(null,
+                        "Bạn có chắc chắn muốn xóa " + banTemp.getMaBan() + "?",
+                        "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+                if (res == JOptionPane.YES_OPTION) {
+                    dao.xoaBan(banTemp.getMaBan());
+                    center.remove(btnBan);
+                    center.revalidate();
+                    center.repaint();
+                }
+            });
+            popup.add(delete);
+
+            // Sự kiện chuột
+            btnBan.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (SwingUtilities.isRightMouseButton(e)) {
+                        popup.show(e.getComponent(), e.getX(), e.getY());
+                    } else if (SwingUtilities.isLeftMouseButton(e)) {
+                        if (banTemp.getTrangThai().equals("Trong")) {
+                            if (JOptionPane.showConfirmDialog(null,
+                                    "Bàn " + banTemp.getMaBan() + " đang trống.\nChuyển sang ĐANG PHỤC VỤ?",
+                                    "Xác nhận",
+                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                dao.setTrangThaiDangPhucVu(banTemp.getMaBan());
+                                banTemp.setTrangThai("Dang phuc vu");
+                                btnBan.setIcon(banIconDo);
+                            }
+                        } else if (banTemp.getTrangThai().equals("Dang phuc vu")) {
+                            if (JOptionPane.showConfirmDialog(null,
+                                    "Bàn " + banTemp.getMaBan() + " đang phục vụ.\nChuyển về TRỐNG?",
+                                    "Xác nhận",
+                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                dao.setTrangThaiTrong(banTemp.getMaBan());
+                                banTemp.setTrangThai("Trong");
+                                btnBan.setIcon(banIconTrong);
+                            }
+                        }
+                    }
+                }
+            });
+
+            center.add(btnBan);
+        }
+
+        homePanel.add(scroll, BorderLayout.CENTER);
+
+        // NÚT THÊM BÀN
+        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        southPanel.setBackground(colorMain);
+
+        JButton btnThemBan = new JButton("Thêm bàn");
+        btnThemBan.setBackground(new Color(100, 149, 237));
+        btnThemBan.setForeground(Color.WHITE);
+        btnThemBan.setFocusPainted(false);
+        btnThemBan.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        btnThemBan.addActionListener(e -> {
+            new FrmThemBan(pcenter, () -> {
+                pcenter.removeAll();
+                pcenter.add(createHomePanel(), "Trang chủ");
+                card.show(pcenter, "Trang chủ");
+                pcenter.revalidate();
+                pcenter.repaint();
+            });
+        });
+
+        southPanel.add(btnThemBan);
+        homePanel.add(southPanel, BorderLayout.SOUTH);
+
+        return homePanel;
+    }
+
 
     public frmTrangChu() {
         setTitle("Trang Chủ");
@@ -106,14 +229,17 @@ public class frmTrangChu extends JFrame implements ActionListener {
 
         // === CENTER (NỘI DUNG CHÍNH) ===
         card = new CardLayout();
+        
+        
+       
         pcenter = new JPanel(card);
 
-        // Trang chủ mặc định
-        JPanel homePanel = new JPanel(new BorderLayout());
-        homePanel.setBackground(colorMain);
-        JLabel lblHome = new JLabel("Trang chủ", SwingConstants.CENTER);
-        lblHome.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        homePanel.add(lblHome, BorderLayout.CENTER);
+     // ===== Home Panel =====
+        JPanel homePanel = createHomePanel();
+
+     // Thêm homePanel vào pcenter CardLayout
+  
+        pcenter.add(homePanel, "Trang chủ");
 
         // Thêm frmHoaDon (JPanel)
         hoaDonPanel = new frmHoaDon();
@@ -221,6 +347,6 @@ public class frmTrangChu extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new frmTrangChu();
+        new frmTrangChu(); 
     }
 }
